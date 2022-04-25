@@ -12,14 +12,15 @@ struct ContentView: View {
         TabView {
             HomeView()
                 .tabItem {
-                    Label("", systemImage: <#T##String#>)
+                    Label("", systemImage: "house")
                 }
             
             ProfileView()
                 .tabItem {
-                    Label("", systemImage: <#T##String#>)
+                    Label("", systemImage: "person")
                 }
         }
+        
     }
 }
 
