@@ -10,7 +10,11 @@ import SwiftUI
 struct ProfileView: View {
     @State private var backgroundImage = Image("horizontal-background")
     @State private var profileImage = Image("mcconaughey")
-    @State private var sampleText = ""
+    
+    private var bioEmpty = "Describe yourself..."
+    @State private var bioDescription = ""
+    @State private var bioInEditMode = false
+    @FocusState private var isBioFocused: Bool
     
     @State private var inputProfileImage: UIImage?
     @State private var inputBackgroundImage: UIImage?
@@ -75,15 +79,30 @@ struct ProfileView: View {
                     Text("Bio")
                     Spacer()
                     
-                    Button("Edit") {
-                        
+                    Button {
+                        self.bioInEditMode.toggle()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            self.isBioFocused = true
+                        }
+                    } label: {
+                        Text(bioInEditMode ? "Save" : "Edit")
                     }
                 }
                 
-                TextField("Describe yourself...", text: $sampleText)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.secondary)
-                    .frame(maxHeight: .infinity, alignment: .center)
+                if bioInEditMode {
+                    TextField(bioEmpty, text: $bioDescription).font(.system(size: 20))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 20))
+                        .focused($isBioFocused)
+                        .frame(height: 40)
+                } else {
+                    Text(bioDescription == "" ? bioEmpty : bioDescription)
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 20))
+
+                        .frame(height: 40)
+                }
                 
                 Divider()
             }
