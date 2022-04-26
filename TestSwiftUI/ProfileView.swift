@@ -10,7 +10,15 @@ import SwiftUI
 struct ProfileView: View {
     @State private var backgroundImage = Image("horizontal-background")
     @State private var profileImage = Image("mcconaughey")
-    @State private var sampleText = "Describe yourself..."
+    @State private var sampleText = ""
+    
+    @State private var inputProfileImage: UIImage?
+    @State private var inputBackgroundImage: UIImage?
+
+    
+    @State private var showingImagePicker = false
+    @State private var showingBackgroundImagePicker = false
+
     var body: some View {
         ScrollView {
             VStack {
@@ -20,7 +28,7 @@ struct ProfileView: View {
                     Spacer()
                     
                     Button("Edit") {
-                        
+                        showingImagePicker = true
                     }
                 }
                 
@@ -32,9 +40,14 @@ struct ProfileView: View {
                         .scaledToFill()
                         .frame(width: 150, height: 150, alignment: .center)
                 }
+                .sheet(isPresented: $showingImagePicker) {
+                    ImagePicker(image: $inputProfileImage)
+                }
+                .onChange(of: inputProfileImage) { _ in loadProfileImage() }
                 
                 
             }
+
             
             Divider()
             
@@ -45,7 +58,7 @@ struct ProfileView: View {
                     Spacer()
                     
                     Button("Edit") {
-                        
+                        showingBackgroundImagePicker = true
                     }
                 }
                 backgroundImage
@@ -67,16 +80,36 @@ struct ProfileView: View {
                     }
                 }
                 
-                TextField("Add text to your bio", text: $sampleText)
+                TextField("Describe yourself...", text: $sampleText)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.secondary)
-//                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxHeight: .infinity, alignment: .center)
                 
                 Divider()
             }
         }
         .padding()
+        .sheet(isPresented: $showingBackgroundImagePicker) {
+            ImagePicker(image: $inputBackgroundImage)
+        }
+        .onChange(of: inputBackgroundImage) { _ in loadBackgroundImage() }
+        
     }
+    
+    func loadBackgroundImage() {
+        guard let inputBackgroundImage = inputBackgroundImage else {
+            return
+        }
+        backgroundImage = Image(uiImage: inputBackgroundImage)
+    }
+    
+    func loadProfileImage() {
+        guard let inputProfileImage = inputProfileImage else {
+            return
+        }
+        profileImage = Image(uiImage: inputProfileImage)
+    }
+    
 }
 
 struct ProfileView_Previews: PreviewProvider {
