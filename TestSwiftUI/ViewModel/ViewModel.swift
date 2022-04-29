@@ -29,8 +29,8 @@ import SwiftUI
         
     init() {
         bioDescription = getBio()
-        backgroundImage = getImageFrom(fileName: filenameBackgroundPhoto)
-        profileImage = getImageFrom(fileName: filenameProfilePhoto)
+        backgroundImage = getImageFrom(fileName: filenameBackgroundPhoto) ?? Image("horizontal-background")
+        profileImage = getImageFrom(fileName: filenameProfilePhoto) ?? Image("mcconaughey")
     }
     
     func saveBio() {
@@ -43,11 +43,11 @@ import SwiftUI
     
     func getBio() -> String {
         guard let data = try? Data(contentsOf: savePaths.appendingPathComponent(filenameBio)) else {
-            return "Describe yourself..."
+            return ""
         }
         
         guard let str = String(data: data, encoding: String.Encoding.utf8) else {
-            return "Describe yourself..."
+            return ""
         }
         bioDescription = str
         return bioDescription
@@ -78,12 +78,12 @@ import SwiftUI
         }
     }
     
-    func getImageFrom(fileName: String) -> Image {
+    func getImageFrom(fileName: String) -> Image? {
         guard let data = try? Data(contentsOf: savePaths.appendingPathComponent(fileName)) else {
-            return Image(systemName: "mcconaughey")
+            return nil
         }
         guard let uiImage = UIImage(data: data, scale: 1.0) else {
-            return Image(systemName: "mcconaughey")
+            return nil
         }
         return Image(uiImage: uiImage)
     }
