@@ -13,7 +13,7 @@ struct HomeView: View {
     private var postText = "If you're looking for a cute dessert for a party or even just a little pick-me up, try making some of @bakedbyjosie's bite sized cheesecakes! For more delicious baked goods, watch Baked by Josie"
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             
             //MARK: - Header
             VStack {
@@ -39,7 +39,7 @@ struct HomeView: View {
                 Text(name)
                     .font(.title.weight(.semibold))
                     .frame(maxWidth: .infinity)
-                Text(vm.bioDescription)
+                Text(vm.bioDescription == "" ? "Hey, it's my bio" : vm.bioDescription)
                     .font(.title2)
                     .frame(maxWidth: .infinity)
             }
@@ -81,11 +81,10 @@ struct HomeView: View {
         }
         .onAppear {
             vm.bioDescription = vm.getBio()
-            vm.backgroundImage = vm.getImageFrom(fileName: vm.filenameBackgroundPhoto)
-            vm.profileImage = vm.getImageFrom(fileName: vm.filenameProfilePhoto)
+            vm.backgroundImage = vm.getImageFrom(fileName: vm.filenameBackgroundPhoto) ?? Image("horizontal-background")
+            vm.profileImage = vm.getImageFrom(fileName: vm.filenameProfilePhoto) ?? Image("mcconaughey")
         }
         .padding(.top, 1)
-
     }
      
 }
