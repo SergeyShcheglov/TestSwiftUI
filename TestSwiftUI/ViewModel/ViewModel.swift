@@ -43,11 +43,11 @@ import SwiftUI
     
     func getBio() -> String {
         guard let data = try? Data(contentsOf: savePaths.appendingPathComponent(filenameBio)) else {
-            return ""
+            return "Describe yourself..."
         }
         
         guard let str = String(data: data, encoding: String.Encoding.utf8) else {
-            return ""
+            return "Describe yourself..."
         }
         bioDescription = str
         return bioDescription
