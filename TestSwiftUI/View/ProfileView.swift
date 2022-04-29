@@ -12,7 +12,7 @@ struct ProfileView: View {
     @FocusState private var isBioFocused: Bool
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             //MARK: - Profile picture
             VStack {
                 HStack {
