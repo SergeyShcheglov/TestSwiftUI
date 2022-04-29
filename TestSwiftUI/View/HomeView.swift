@@ -19,7 +19,10 @@ struct HomeView: View {
             VStack {
                 vm.backgroundImage
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
+                    .frame(height: 195)
+                    .cornerRadius(20, corners: [.topLeft, .topRight])
+                    .padding(.horizontal, 15)
                 
                 vm.profileImage
                     .resizable()
@@ -34,7 +37,7 @@ struct HomeView: View {
             //MARK: - Name & Bio
             VStack(alignment: .center) {
                 Text(name)
-                    .font(.title)
+                    .font(.title.weight(.semibold))
                     .frame(maxWidth: .infinity)
                 Text(vm.bioDescription)
                     .font(.title2)
@@ -45,7 +48,7 @@ struct HomeView: View {
         
             //MARK: - POSTS
             Text("Posts")
-                .font(.title)
+                .font(.title.weight(.semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
             
@@ -63,22 +66,28 @@ struct HomeView: View {
                         
                         Spacer()
                     }
+                    .padding(.horizontal)
+
                     VStack {
                         Text(postText)
+                            .padding(.horizontal)
                         Image("horizontal-background")
                             .resizable()
                             .scaledToFit()
                     }
                 }
+                .padding(.bottom)
             }
-            .padding()
         }
         .onAppear {
             vm.bioDescription = vm.getBio()
             vm.backgroundImage = vm.getImageFrom(fileName: vm.filenameBackgroundPhoto)
             vm.profileImage = vm.getImageFrom(fileName: vm.filenameProfilePhoto)
         }
+        .padding(.top, 1)
+
     }
+     
 }
 
 struct HomeView_Previews: PreviewProvider {
